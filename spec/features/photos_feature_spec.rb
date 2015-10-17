@@ -21,4 +21,14 @@ feature 'photos' do
     end
   end
 
+  context 'creating photos' do
+    scenario 'prompt user to fill out a form, then displays the new photo' do
+      visit '/photos'
+      click_link 'Add a photo'
+      fill_in 'Title', with: 'hello world'
+      click button 'Post photo'
+      expect(page).to have_content 'hello world'
+      expect(current_path).to eq '/photos'
+    end
+  end
 end
