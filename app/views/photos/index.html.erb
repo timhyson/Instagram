@@ -1,15 +1,23 @@
 <% if @photos.any? %>
   <% @photos.each do |photo| %>
     <%= link_to photo.name, photo_path(photo) %>
-    <%= link_to "Comment on #{photo.name}", new_photo_comment_path(photo) %>
-    <%= link_to "Edit #{photo.name}", edit_photo_path(photo) %>
-    <%= link_to "Delete #{photo.name}", photo_path(photo), method: :delete %>
+    <% if current_user %>
+      <% if (photo.user_id == current_user.id) %>
+        <%= link_to "Comment on #{photo.name}", new_photo_comment_path(photo) %>
+        <%= link_to "Edit #{photo.name}", edit_photo_path(photo) %>
+        <%= link_to "Delete #{photo.name}", photo_path(photo), method: :delete %>
+      <% end %>
+    <% end %>
+
     <h3>Comments for <%= photo.name %></h3>
     <% if photo.comments.any? %>
       <ul>
         <% photo.comments.each do |comment| %>
           <li>
+            <%= image_tag photo.image.url(:thumb) %>
             <%= comment.thoughts %>
+            <%= link_to "Endorse photo", comment_endorsements_path(comment), class: 'endorsements-link' %>
+            <span class="endorsements_count"> <%= comment.endorsements.count %> </span> <%= 'endorsement'.pluralize(comment.endorsements.count) %>
           </li>
         <% end %>
       </ul>

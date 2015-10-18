@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
 
-  devise_for :users
-  resources :photos do
-    resources :comments
+  devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
+  resources :photos, shallow: true do
+    resources :comments do
+      resources :endorsements
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

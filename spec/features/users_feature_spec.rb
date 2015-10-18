@@ -34,6 +34,17 @@ feature "User can sign in and out" do
       expect(page).to have_link 'Edit hello'
     end
 
+    it "cannot edit photos which they did not post" do
+      visit('/')
+      click_link('Add a photo')
+      fill_in 'Name', with: 'hello'
+      click_button 'Create Photo'
+      click_link 'Sign out'
+      user = build :user2
+      sign_up(user)
+      expect(page).not_to have_link('Edit hello')
+    end
+
     it "should see 'sign out' link" do
       visit('/')
       expect(page).to have_link('Sign out')
