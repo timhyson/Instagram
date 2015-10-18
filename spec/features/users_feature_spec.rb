@@ -26,6 +26,14 @@ feature "User can sign in and out" do
       sign_up(user)
     end
 
+    it "can edit photos which they posted" do
+      visit('/')
+      click_link('Add a photo')
+      fill_in 'Name', with: 'hello'
+      click_button 'Create Photo'
+      expect(page).to have_link 'Edit hello'
+    end
+
     it "should see 'sign out' link" do
       visit('/')
       expect(page).to have_link('Sign out')
