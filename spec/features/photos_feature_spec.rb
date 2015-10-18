@@ -10,9 +10,8 @@ feature 'photos' do
   end
 
   context 'photos have been added' do
-    before do
-      Photo.create(name: 'hello world')
-    end
+    before { Photo.create(name: 'hello world') }
+
     scenario 'display photos' do
       visit '/photos'
       expect(page).to have_content('hello world')
@@ -21,8 +20,12 @@ feature 'photos' do
   end
 
   context 'creating photos' do
+    before do
+      user = build :user
+      sign_up(user)
+    end
+
     scenario 'prompt user to fill out a form, then displays the new photo' do
-      visit '/photos'
       click_link 'Add a photo'
       fill_in 'Name', with: 'hello world'
       click_button 'Create Photo'
@@ -33,6 +36,7 @@ feature 'photos' do
 
   context 'viewing photos' do
     let!(:hi){ Photo.create(name:'hi') }
+
     scenario 'lets a user view a photo' do
       visit '/photos'
       click_link 'hi'
@@ -42,7 +46,12 @@ feature 'photos' do
   end
 
   context 'editing photos' do
-    before { Photo.create name: 'hi' }
+    before do
+      user = build :user
+      sign_up(user)
+      Photo.create name: 'hi'
+    end
+
     scenario 'let a user edit a posted photo' do
       visit '/photos'
       click_link 'Edit hi'
@@ -54,16 +63,18 @@ feature 'photos' do
   end
 
   context 'deleting photos' do
+    before do
+      user = build :user
+      sign_up(user)
+      Photo.create name: 'hi'
+    end
 
-  before { Photo.create name: 'hi'}
-
-  scenario 'removes a photo when a user clicks a delete link' do
-    visit '/photos'
-    click_link 'Delete hi'
-    expect(page).not_to have_content 'hi'
-    expect(page).to have_content 'Photo deleted successfully'
+    scenario 'removes a photo when a user clicks a delete link' do
+      visit '/photos'
+      click_link 'Delete hi'
+      expect(page).not_to have_content 'hi'
+      expect(page).to have_content 'Photo deleted successfully'
+    end
   end
-
-end
 
 end

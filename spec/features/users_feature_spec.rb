@@ -12,16 +12,18 @@ feature "User can sign in and out" do
       visit('/')
       expect(page).not_to have_link('Sign out')
     end
+
+    it "must be logged in to create post" do
+      visit('/')
+      click_link('Add a photo')
+      expect(page).not_to have_button('Add a photo')
+    end
   end
 
   context "user signed in on the homepage" do
     before do
-      visit('/')
-      click_link('Sign up')
-      fill_in('Email', with: 'test@example.com')
-      fill_in('Password', with: 'testtest')
-      fill_in('Password confirmation', with: 'testtest')
-      click_button('Sign up')
+      user = build :user
+      sign_up(user)
     end
 
     it "should see 'sign out' link" do
