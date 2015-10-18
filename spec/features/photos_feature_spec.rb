@@ -13,7 +13,6 @@ feature 'photos' do
     before do
       Photo.create(name: 'hello world')
     end
-
     scenario 'display photos' do
       visit '/photos'
       expect(page).to have_content('hello world')
@@ -33,13 +32,24 @@ feature 'photos' do
   end
 
   context 'viewing photos' do
-    let!(:hi){Photo.create(name:'hi')}
-
+    let!(:hi){ Photo.create(name:'hi') }
     scenario 'lets a user view a photo' do
       visit '/photos'
       click_link 'hi'
       expect(page).to have_content 'hi'
       expect(current_path).to eq "/photos/#{hi.id}"
+    end
+  end
+
+  context 'editing photos' do
+    before { Photo.create name: 'hi' }
+    scenario 'let a user edit a posted photo' do
+      visit '/photos'
+      click_link 'Edit hi'
+      fill_in 'Name', with: 'hello'
+      click_button 'Update Photo'
+      expect(page).to have_content 'hello'
+      expect(current_path).to eq '/photos'
     end
   end
 
