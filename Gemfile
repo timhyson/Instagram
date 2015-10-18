@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'devise'
+gem 'omniauth-facebook'
+gem 'paperclip'
+gem 'aws-sdk'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
@@ -33,8 +36,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 group :test do
   gem 'capybara'
+  gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'poltergeist'
   gem 'shoulda'
 end
 
