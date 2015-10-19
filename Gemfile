@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk', '< 2.0'
 gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -45,6 +45,7 @@ end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'launchy'
 end
 
 group :development do

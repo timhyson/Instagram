@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 feature 'commenting' do
-  before { Photo.create name: 'hello world' }
+
+  let(:user) { create :user }
+  before     { Photo.create name: 'hello world' }
 
   scenario 'allows users to leave a comment using a form' do
+    sign_in(user)
     visit '/photos'
     click_link 'Comment on hello world'
     fill_in 'Thoughts', with: 'Great shot!'
